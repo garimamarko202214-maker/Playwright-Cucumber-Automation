@@ -7,8 +7,7 @@ Before(async function (this: CustomWorld) {
   this.browser = await chromium.launch({ headless: false });
   this.context = await this.browser.newContext();
   this.page = await this.context.newPage();
-   this.pageLocator = new PageManager(this.page);
-   this.page.goto('https://eventhub.rahulshettyacademy.com/')
+  this.pageLocator = new PageManager(this.page);
 });
 
 After(async function (this: CustomWorld) {

@@ -1,9 +1,10 @@
 module.exports = {
   default: [
-    '--require-module ts-node/register --require src/tests/steps/test.ts',
+    '--require-module ts-node/register',
     '--require src/tests/steps/**/*.ts',
     '--require src/tests/support/**/*.ts',
     '--format progress',
-    '--require src/tests/steps/test.ts'
+    '--format json:reports/cucumber-report.json',
+    'src/tests/features/**/*.feature'
   ].join(' ')
 };
