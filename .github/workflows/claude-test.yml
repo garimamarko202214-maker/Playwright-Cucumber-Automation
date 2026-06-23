@@ -1,13 +1,13 @@
 name: Claude Test
 
 on:
-pull_request:
-branches:
-- develop
+ pull_request:
+  branches:
+   - develop
 
 jobs:
-playwright-cucumber-tests:
-runs-on: ubuntu-latest
+ playwright-cucumber-tests:
+  runs-on: ubuntu-latest
 
 steps:
   - name: Checkout Repository
