@@ -1,0 +1,85 @@
+name: Playwright Cucumber Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Cucumber tests
+        run: npx cucumber-js
+
+      - name: Generate HTML report
+        if: always()
+        run: node generate-report.js
+
+      - name: Upload Cucumber report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: reports/cucumber-report.html
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+      - name: Comment PR with test results
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const reportPath = 'reports/cucumber-report.json';
+
+            if (fs.existsSync(reportPath)) {
+              const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+              const scenarios = report[0]?.elements || [];
+              const passed = scenarios.filter(s => s.steps.every(st => st.result.status === 'passed')).length;
+              const failed = scenarios.filter(s => s.steps.some(st => st.result.status === 'failed')).length;
+
+              const comment = `
+              ## 🧪 Cucumber Test Results
+
+              - ✅ Passed: ${passed}
+              - ❌ Failed: ${failed}
+              - 📊 Total: ${scenarios.length}
+
+              📄 **Report**: [View Cucumber Report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+              `;
+
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            }
