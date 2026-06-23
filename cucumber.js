@@ -5,7 +5,6 @@ module.exports = {
     '--require src/tests/support/**/*.ts',
     '--format progress',
     '--format json:reports/cucumber-report.json',
-    '--timeout 30000',
     'src/tests/features/**/*.feature'
   ].join(' ')
 };
