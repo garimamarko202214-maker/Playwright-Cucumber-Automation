@@ -65,6 +65,72 @@ readonly anyEventFormError: Locator;
 readonly addEventForm: Locator;
 readonly eventCreatedToast: Locator;
 
+// --- Cancel Booking locators (TC_CB_001 .. TC_CB_050) ---
+// Per-status booking card sets — derived from the shared .booking-card base.
+// TC_CB_003 / TC_CB_004 / TC_CB_009 / TC_CB_019 all need to address Confirmed
+// vs Cancelled cards directly, so we expose pre-filtered sets here.
+readonly confirmedBookingCards: Locator;
+readonly cancelledBookingCards: Locator;
+readonly lastConfirmedBookingCard: Locator;
+readonly cancelButtons: Locator;
+
+// Confirmation modal — content + controls surfaced as discrete locators so
+// step definitions can target the heading, the booking details, and the
+// action buttons without re-querying the DOM on every step.
+readonly cancelModalHeading: Locator;
+readonly cancelModalEventName: Locator;
+readonly cancelModalEventDate: Locator;
+readonly cancelModalSeats: Locator;
+readonly cancelModalPrice: Locator;
+readonly cancelModalBackdrop: Locator;
+readonly cancelModalCloseIcon: Locator;
+readonly cancelModalRefundCopy: Locator;
+readonly cancelModalConfirmButton: Locator;
+readonly cancelModalKeepBookingButton: Locator;
+
+// Toast / feedback surfaces — TC_CB_014 / TC_CB_015 / TC_CB_017 / TC_CB_018
+// observe the success / error / close-X affordances on the toast.
+readonly cancelSuccessToastHeading: Locator;
+readonly cancelErrorToast: Locator;
+readonly cancelToastCloseButton: Locator;
+
+// ARIA hooks on the modal — TC_CB_012 / TC_CB_040 / TC_CB_041 / TC_CB_042
+// read role="dialog" / aria-modal / aria-label / aria-live from these.
+readonly cancelModalRoot: Locator;
+
+// --- Logout locators (TC_LGO_001) ---
+// Profile menu trigger, the dropdown it opens, the Logout item inside the
+// dropdown, the authenticated app shell top nav, and the login form that
+// becomes visible after the post-logout redirect.
+readonly profileMenuButton: Locator;
+readonly profileDropdown: Locator;
+readonly logoutMenuItem: Locator;
+readonly appShellTopNav: Locator;
+readonly loginForm: Locator;
+
+// --- Book Event form locators (TC_BKG_DMY_001) ---
+// Action that opens the booking form/modal on an event card. Matches the four
+// label variants listed in the JSON (Book Now / Book Event / Reserve / Register).
+readonly bookNowButton: Locator;
+// Visible booking form/modal container rendered after clicking bookNowButton.
+readonly bookingForm: Locator;
+// Form input fields for the booking flow. Attribute-based selectors follow the
+// patterns documented in the JSON's locatorsToAdd block.
+readonly bookingFormSeatsInput: Locator;
+readonly bookingFormNameInput: Locator;
+readonly bookingFormEmailInput: Locator;
+readonly bookingFormPhoneInput: Locator;
+readonly bookingFormCardInput: Locator;
+readonly bookingFormExpiryInput: Locator;
+readonly bookingFormCvvInput: Locator;
+// Final submit button inside the booking form.
+readonly bookingFormConfirmButton: Locator;
+// Success toast/notification shown after a successful booking.
+readonly bookingSuccessToast: Locator;
+// Available-seats badge/label on the event card (used to verify the seat count
+// decreases from 100 to 98 after a successful booking).
+readonly availableSeatsLabel: Locator;
+
   constructor(page: Page) {
     this.page = page;
     this.userEmailInput = this.page.getByPlaceholder('you@email.com');
@@ -72,16 +138,22 @@ readonly eventCreatedToast: Locator;
     this.signInButton = this.page.getByRole('button', { name: 'Sign In' });
     this.errorMessage = page.locator('.error-message');
     this.eventTab=page.locator( '#nav-events')
-    this.addNewEvent = page.getByRole('button', { name: 'Add New Event' });
-    this.eventTitle=page.locator('//input[@id="event-title-input"]');
-     this.eventDesc=page.getByPlaceholder('Describe the event…"]');
-     this.categoryDD=page.locator('#category');
-     this.eventCity=page.locator('#city');
-     this.eventVenue=page.locator('#venue');
-      this.eventCalender=page.locator('//input[@id="event-date-&-time"]');
-       this.eventPrice=page.getByPlaceholder('0.00');
-        this.eventSeat=page.locator('#total-seats');
-        this.addEventButton=page.locator('#add-event-btn')
+    // Add Event form fields — the live EventHub admin form renders these as
+    // accessible-name-labelled controls with NO `id` attributes, so role /
+    // label-based locators are the only reliable strategy.
+    this.addNewEvent = page.getByRole('button', { name: 'Add New Event' }).or(
+      page.getByRole('link', { name: 'Add New Event' })
+    ).first();
+    this.eventTitle = page.getByRole('textbox', { name: /^title\*?$/i }).first();
+    this.eventDesc = page.getByRole('textbox', { name: /^description$/i }).first();
+    this.categoryDD = page.getByRole('combobox', { name: /^category\*?$/i }).first();
+    this.eventCity = page.getByRole('textbox', { name: /^city\*?$/i }).first();
+    this.eventVenue = page.getByRole('textbox', { name: /^venue\*?$/i }).first();
+    this.eventCalender = page.getByRole('textbox', { name: /event date.*time\*?$/i }).first();
+    this.eventPrice = page.getByRole('spinbutton', { name: /price.*\$\*?$/i }).first();
+    this.eventSeat = page.getByRole('spinbutton', { name: /total seats\*?$/i }).first();
+    // "+ Add Event" is the submit button on the admin Add-Event form.
+    this.addEventButton = page.getByRole('button', { name: /^\+\s*add event$/i }).first();
 
     // Bookings nav link — matches the existing #nav-* convention used by the app shell
     // (eventTab uses '#nav-events'). Best-guess id derived from that pattern; falls
@@ -164,9 +236,12 @@ readonly eventCreatedToast: Locator;
     this.firstEventCity = this.firstEventCard.locator(':text-matches("\\\\b(Mumbai|Bangalore|Delhi|Hyderabad|Chennai|Pune|Los Angeles|New York|London)\\\\b")').first();
 
     // "Event created!" success toast — appears after submitting the Add Event form.
-    // The toast is a div with class `border-emerald-200 bg-emerald-50 text-emerald-800`
-    // and contains a <p> with the literal text "Event created!".
-    this.eventCreatedToast = page.locator('p', { hasText: /^Event created!$/ }).locator('xpath=ancestor::div[contains(@class, "border-emerald-200")][1]');
+    // The live toast is a generic <div> with an inner <p> reading the literal
+    // text "Event created!" and a "Dismiss" button. Walk up to the closest
+    // toast container so callers can assert on the wrapper (e.g. visibility,
+    // toContainText) without us re-querying the DOM.
+    this.eventCreatedToast = page.locator('p', { hasText: /^Event created!$/ })
+      .locator('xpath=ancestor::div[1]');
 
     // --- Add New Event validation locators (TC-EVT-003) ---
     // Inline error messages per field. The form uses both .error / .invalid-feedback
@@ -204,5 +279,255 @@ readonly eventCreatedToast: Locator;
     this.addEventForm = page.locator(
       '.modal:visible, [role="dialog"]:visible, form:has(#add-event-btn)'
     ).first();
+
+    // --- Cancel Booking: per-status card sets ------------------------------
+    // Confirmed/Cancelled sets are .booking-card containers whose status
+    // badge text matches the desired status. Used by TC_CB_003 (multi),
+    // TC_CB_004 (visibility), TC_CB_019 (no Cancel on Cancelled).
+    this.confirmedBookingCards = this.bookingCards.filter({
+      has: this.page.locator('.status, .badge, .booking-status').filter({ hasText: /confirmed/i })
+    });
+    this.cancelledBookingCards = this.bookingCards.filter({
+      has: this.page.locator('.status, .badge, .booking-status').filter({ hasText: /cancelled|canceled/i })
+    });
+    this.lastConfirmedBookingCard = this.confirmedBookingCards.last();
+    this.cancelButtons = this.confirmedBookingCards.getByRole('button', {
+      name: /^cancel( booking)?$/i
+    });
+
+    // --- Cancel Booking: confirmation modal --------------------------------
+    // Heading text from JSON: "Confirm Cancellation" / "Are you sure?".
+    this.cancelModalHeading = this.cancelConfirmModal.getByRole('heading', {
+      name: /confirm cancellation|are you sure\??/i
+    });
+    // Booking details shown inside the modal (TC_CB_005).
+    this.cancelModalEventName = this.cancelConfirmModal.locator(
+      '.event-name, .booking-event-name, .modal-event-name, [data-testid="modal-event-name"]'
+    ).first();
+    this.cancelModalEventDate = this.cancelConfirmModal.locator(
+      '.event-date, .booking-date, time, [data-testid="modal-event-date"]'
+    ).first();
+    this.cancelModalSeats = this.cancelConfirmModal.locator(
+      '.seats, .booking-seats, [data-testid="modal-seats"]'
+    ).first();
+    this.cancelModalPrice = this.cancelConfirmModal.locator(
+      '.price, .total-price, .refund-amount, [data-testid="modal-price"]'
+    ).first();
+    // The backdrop is whatever sits behind the dialog content. We target the
+    // .modal element itself; Playwright's click on the corner will hit the
+    // backdrop, not the dialog content.
+    this.cancelModalBackdrop = this.cancelConfirmModal;
+    this.cancelModalCloseIcon = this.cancelConfirmModal.getByRole('button', {
+      name: /^close$|×/i
+    }).or(this.cancelConfirmModal.locator('.modal-close, [aria-label="Close"]'));
+    // Refund / policy copy (TC_CB_031) — falls back to any text mentioning
+    // refund or cancellation policy.
+    this.cancelModalRefundCopy = this.cancelConfirmModal.locator(
+      '.refund-policy, .modal-refund, [data-testid="modal-refund-copy"], :text-matches("refund|cancellation policy", "i")'
+    ).first();
+
+    // Re-export the existing modal button locators under the names used by
+    // the cancel-booking scenarios to keep the step file readable.
+    this.cancelModalConfirmButton = this.modalConfirmCancelButton;
+    this.cancelModalKeepBookingButton = this.modalKeepBookingButton;
+
+    // --- Cancel Booking: toast / feedback surfaces ------------------------
+    // Success toast — heading row of the toast container so we can assert
+    // the textual content independently of the close button.
+    this.cancelSuccessToastHeading = this.cancelSuccessToast.locator(
+      '.toast-title, .toast-message, p, span, div'
+    ).first();
+    // Error toast — distinct from the success toast; used by TC_CB_017 /
+    // TC_CB_018 / TC_CB_043 to verify the failure path.
+    this.cancelErrorToast = page.locator(
+      '.toast-error, .alert-danger, [role="alert"], [data-testid="toast-error"]'
+    ).filter({ hasText: /(cancel|network|server|error|fail)/i });
+    // Optional close (X) on the toast — TC_CB_015.
+    this.cancelToastCloseButton = this.cancelSuccessToast.getByRole('button', {
+      name: /^close$|×/i
+    }).or(this.cancelSuccessToast.locator('.toast-close, [aria-label="Close"]'));
+
+    // --- Cancel Booking: ARIA hooks ---------------------------------------
+    // Single, visible dialog element. role() and getAttribute() in the
+    // step definitions read role / aria-modal / aria-labelledby from this
+    // locator directly.
+    this.cancelModalRoot = this.cancelConfirmModal;
+
+    // --- Logout locators (TC_LGO_001) -------------------------------------
+    // The live EventHub app exposes the Logout action as a direct button in
+    // the top <navigation> element — there is no intermediate profile-menu
+    // trigger and no dropdown. The selectors below mirror that reality.
+    //
+    // `profileMenuButton` is kept as a defensive locator for any future
+    // variant that reintroduces an avatar/menu trigger. In the live app this
+    // resolves to zero elements, and the corresponding step becomes a no-op.
+    this.profileMenuButton = page.locator(
+      '#profile-menu, [data-testid="profile-menu"], button[aria-haspopup="menu"], ' +
+      'button[aria-label*="profile" i], button[aria-label*="account" i]'
+    ).first();
+
+    // The dropdown container that appears after clicking the profile menu.
+    // The live app does NOT render a separate dropdown — Logout is a direct
+    // button in the top nav. We keep this locator as a defensive fallback for
+    // any future variant that reintroduces a dropdown.
+    this.profileDropdown = page.locator(
+      '.dropdown-menu.show, [role="menu"]:visible, [data-testid="profile-dropdown"]:visible'
+    ).first();
+
+    // The Logout / Sign out menu item inside the profile dropdown (or, in the
+    // live app, the Logout button in the top nav). Text matches
+    // /log\s*out|sign\s*out/i to cover the four variants listed in the JSON's
+    // logoutActionLabels (Logout / Log out / Sign out / Sign Out).
+    this.logoutMenuItem = page.getByRole('button', { name: /^log\s*out|sign\s*out$/i }).first();
+
+    // The authenticated top navigation — confirms the app shell is mounted
+    // and contains the Events / My Bookings tabs. The live app uses a bare
+    // <navigation> element at the top level (no <header> wrapper), so the
+    // selector must allow that.
+    this.appShellTopNav = page.locator(
+      'nav, [role="navigation"]:visible, header nav, .app-shell-nav, [data-testid="app-shell-nav"]'
+    ).first();
+
+    // The login form element — used to confirm we are back on the login page
+    // after the post-logout redirect. Matches the email/password inputs that
+    // the login step targets.
+    this.loginForm = page.locator(
+      'form:has(input[placeholder="you@email.com"]), form:has(input[placeholder*="•" i]), ' +
+      '[data-testid="login-form"], #login-form'
+    ).first();
+
+    // --- Book Event form locators (TC_BKG_DMY_001) -----------------------
+    // Book Now / Book Event / Reserve / Register — a button or link inside
+    // an event card. Scope to article.event-card / .event-card so it doesn't
+    // pick up a nav-level CTA.
+    this.bookNowButton = page.locator(
+      'main article a:has-text("Book Now"), main article button:has-text("Book Now"), ' +
+      'main article a:has-text("Book Event"), main article button:has-text("Book Event"), ' +
+      'main article a:has-text("Reserve"), main article button:has-text("Reserve"), ' +
+      'main article a:has-text("Register"), main article button:has-text("Register"), ' +
+      '.event-card a:has-text("Book Now"), .event-card button:has-text("Book Now"), ' +
+      '.event-card a:has-text("Book Event"), .event-card button:has-text("Book Event"), ' +
+      '.event-card a:has-text("Reserve"), .event-card button:has-text("Reserve"), ' +
+      '.event-card a:has-text("Register"), .event-card button:has-text("Register"), ' +
+      '[data-testid="book-now"], [data-testid="book-event"]'
+    ).first();
+
+    // The visible booking form/modal that opens after clicking bookNowButton.
+    // Mirrors the addEventForm locator pattern (.modal:visible / [role="dialog"]).
+    this.bookingForm = page.locator(
+      '.modal.show:visible, [role="dialog"]:visible, form#booking-form:visible, ' +
+      '[data-testid="booking-form"]:visible, [data-testid="booking-modal"]:visible'
+    ).first();
+
+    // Form inputs — attribute patterns from the JSON's locatorsToAdd block.
+    this.bookingFormSeatsInput = this.bookingForm.locator(
+      'input[type="number"][name*="seat" i], #booking-seats, [data-testid="booking-seats"]'
+    ).first();
+    this.bookingFormNameInput = this.bookingForm.locator(
+      'input[name*="name" i], input[placeholder*="name" i], #booking-name, [data-testid="booking-name"]'
+    ).first();
+    this.bookingFormEmailInput = this.bookingForm.locator(
+      'input[type="email"], input[name*="email" i], #booking-email, [data-testid="booking-email"]'
+    ).first();
+    this.bookingFormPhoneInput = this.bookingForm.locator(
+      'input[type="tel"], input[name*="phone" i], #booking-phone, [data-testid="booking-phone"]'
+    ).first();
+    this.bookingFormCardInput = this.bookingForm.locator(
+      'input[name*="card" i], input[placeholder*="card" i], #booking-card, [data-testid="booking-card"]'
+    ).first();
+    this.bookingFormExpiryInput = this.bookingForm.locator(
+      'input[name*="expir" i], input[placeholder*="mm/yy" i], #booking-expiry, [data-testid="booking-expiry"]'
+    ).first();
+    this.bookingFormCvvInput = this.bookingForm.locator(
+      'input[name*="cvv" i], input[placeholder*="cvv" i], #booking-cvv, [data-testid="booking-cvv"]'
+    ).first();
+
+    // Final submit button — submit type preferred, fall back to text match.
+    this.bookingFormConfirmButton = this.bookingForm.locator(
+      'button[type="submit"], button:has-text("Confirm"), button:has-text("Book"), ' +
+      'button:has-text("Pay"), #booking-submit, [data-testid="booking-confirm"]'
+    ).first();
+
+    // Success toast — div / role="status" with text matching
+    // /booked|booking\s*confirmed|payment\s*successful/i. Scope to live DOM
+    // (visible) to avoid hitting stale nodes.
+    this.bookingSuccessToast = page.locator(
+      '.toast:visible, .alert-success:visible, [role="status"]:visible, ' +
+      '[data-testid="toast-success"]:visible, [data-testid="booking-success-toast"]:visible'
+    ).filter({ hasText: /booked|booking\s*confirmed|payment\s*successful/i }).first();
+
+    // Available-seats badge on the event card. Reuses the firstEventSeats
+    // regex pattern (matches the literal word "seats" / "seats left").
+    this.availableSeatsLabel = page.locator(
+      'main article :text-matches("\\\\bseats?\\\\b", "i"), ' +
+      '.event-card :text-matches("\\\\bseats?\\\\b", "i")'
+    ).first();
+  }
+
+  // -------------------------------------------------------------------------
+  // Cancel Booking helper actions
+  //
+  // Each helper is a small "do one thing" method that encapsulates the
+  // Playwright interactions used by the step definitions. Centralising them
+  // here means a future DOM change only needs to be patched in one place.
+  // -------------------------------------------------------------------------
+
+  /** Click the Cancel button on the first Confirmed booking card. */
+  async clickCancelOnFirstConfirmed(): Promise<void> {
+    await this.confirmedBookingCards.first().getByRole('button', {
+      name: /^cancel( booking)?$/i
+    }).click();
+  }
+
+  /** Click the Cancel button on the last Confirmed booking card. */
+  async clickCancelOnLastConfirmed(): Promise<void> {
+    await this.lastConfirmedBookingCard.getByRole('button', {
+      name: /^cancel( booking)?$/i
+    }).click();
+  }
+
+  /** Wait for the cancel confirmation modal to become visible. */
+  async waitForCancelModal(): Promise<void> {
+    await this.cancelConfirmModal.waitFor({ state: 'visible', timeout: 15000 });
+  }
+
+  /** Click the destructive "Confirm Cancel" / "Yes, Cancel" button. */
+  async confirmCancellation(): Promise<void> {
+    await this.cancelModalConfirmButton.click();
+  }
+
+  /** Click the safe "Keep Booking" / "Close" button. */
+  async clickKeepBooking(): Promise<void> {
+    await this.cancelModalKeepBookingButton.click();
+  }
+
+  /** Wait for the cancel modal to disappear. */
+  async waitForCancelModalClosed(): Promise<void> {
+    await this.cancelConfirmModal.waitFor({ state: 'hidden', timeout: 15000 });
+  }
+
+  /**
+   * Click on the modal backdrop / overlay to dismiss without confirming.
+   * Targets the corner of the modal element itself so the dialog content is
+   * not hit.
+   */
+  async clickModalBackdrop(): Promise<void> {
+    const box = await this.cancelConfirmModal.boundingBox();
+    if (!box) {
+      // Fallback to a selector-based press at the top edge.
+      await this.cancelConfirmModal.click({ position: { x: 5, y: 5 } });
+      return;
+    }
+    // Click outside the centered dialog content — top-left of the modal
+    // box is usually the backdrop.
+    await this.page.mouse.click(box.x + 5, box.y + 5);
+  }
+
+  /** Count of booking cards currently in the given status (case-insensitive). */
+  async countByStatus(status: 'Confirmed' | 'Cancelled'): Promise<number> {
+    const set = status === 'Confirmed'
+      ? this.confirmedBookingCards
+      : this.cancelledBookingCards;
+    return await set.count();
   }
 }

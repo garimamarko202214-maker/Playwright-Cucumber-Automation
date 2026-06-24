@@ -1,0 +1,154 @@
+- generic [ref=e1]:
+  - navigation [ref=e5]:
+    - generic [ref=e7]:
+      - link "EventHub" [ref=e8] [cursor=pointer]:
+        - /url: /
+        - img [ref=e10]
+        - generic [ref=e12]: EventHub
+      - generic [ref=e13]:
+        - link "Home" [ref=e14] [cursor=pointer]:
+          - /url: /
+        - link "Events" [ref=e15] [cursor=pointer]:
+          - /url: /events
+        - link "My Bookings" [ref=e16] [cursor=pointer]:
+          - /url: /bookings
+        - link "API Docs" [ref=e17] [cursor=pointer]:
+          - /url: https://api.eventhub.rahulshettyacademy.com/api/docs
+        - button "Admin" [ref=e19] [cursor=pointer]:
+          - text: Admin
+          - img [ref=e20]
+        - generic [ref=e22]:
+          - generic "ginni@gmail.com" [ref=e23]
+          - button "Logout" [ref=e24] [cursor=pointer]
+  - main [ref=e25]:
+    - generic [ref=e26]:
+      - navigation [ref=e27]:
+        - link "Events" [ref=e28] [cursor=pointer]:
+          - /url: /events
+        - generic [ref=e29]: /
+        - generic [ref=e30]: Acme Test Concert 2026
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - img [ref=e35]
+          - generic [ref=e37]:
+            - generic [ref=e39]: Concert
+            - heading "Acme Test Concert 2026" [level=1] [ref=e40]
+            - generic [ref=e41]:
+              - generic [ref=e42]:
+                - generic [ref=e43]: 📅
+                - generic [ref=e44]:
+                  - paragraph [ref=e45]: Date
+                  - paragraph [ref=e46]: Tuesday, 15 June
+              - generic [ref=e47]:
+                - generic [ref=e48]: 🕐
+                - generic [ref=e49]:
+                  - paragraph [ref=e50]: Time
+                  - paragraph [ref=e51]: 12:00 am
+              - generic [ref=e52]:
+                - generic [ref=e53]: 📍
+                - generic [ref=e54]:
+                  - paragraph [ref=e55]: Venue
+                  - paragraph [ref=e56]: Dummy Arena
+              - generic [ref=e57]:
+                - generic [ref=e58]: 🌆
+                - generic [ref=e59]:
+                  - paragraph [ref=e60]: City
+                  - paragraph [ref=e61]: Dummyville
+              - generic [ref=e62]:
+                - generic [ref=e63]: 🎫
+                - generic [ref=e64]:
+                  - paragraph [ref=e65]: Available
+                  - paragraph [ref=e66]: 100 / 100 seats
+              - generic [ref=e67]:
+                - generic [ref=e68]: 💰
+                - generic [ref=e69]:
+                  - paragraph [ref=e70]: Price per ticket
+                  - paragraph [ref=e71]: $50
+            - generic [ref=e72]:
+              - heading "About this event" [level=2] [ref=e73]
+              - paragraph [ref=e74]: This is a dummy description for automated test case data.
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - heading "Book Tickets" [level=2] [ref=e78]
+            - generic [ref=e79]: $50
+          - paragraph [ref=e80]: per ticket
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - generic [ref=e83]: Tickets
+              - generic [ref=e84]:
+                - button "−" [ref=e85] [cursor=pointer]
+                - generic [ref=e86]: "2"
+                - button "+" [active] [ref=e87] [cursor=pointer]
+                - generic [ref=e88]: (max 10)
+            - generic [ref=e89]:
+              - generic [ref=e90]: Full Name*
+              - textbox "Full Name*" [ref=e91]:
+                - /placeholder: Your full name
+            - generic [ref=e92]:
+              - generic [ref=e93]: Email*
+              - textbox "Email*" [ref=e94]:
+                - /placeholder: you@email.com
+            - generic [ref=e95]:
+              - generic [ref=e96]: Phone Number*
+              - textbox "Phone Number*" [ref=e97]:
+                - /placeholder: +91 98765 43210
+            - generic [ref=e98]:
+              - generic [ref=e99]:
+                - generic [ref=e100]: $50 × 2 tickets
+                - generic [ref=e101]: $100
+              - generic [ref=e102]:
+                - generic [ref=e103]: Total
+                - generic [ref=e104]: $100
+            - button "Confirm Booking" [ref=e105] [cursor=pointer]
+  - contentinfo [ref=e106]:
+    - generic [ref=e107]:
+      - generic [ref=e108]:
+        - generic [ref=e109]:
+          - heading "Rahul Shetty Academy" [level=3] [ref=e110]
+          - paragraph [ref=e111]: India's leading QA automation training academy — empowering engineers to build real-world testing skills.
+        - generic [ref=e112]:
+          - heading "Popular Courses" [level=3] [ref=e113]
+          - list [ref=e114]:
+            - listitem [ref=e115]:
+              - link "Selenium WebDriver with Java" [ref=e116] [cursor=pointer]:
+                - /url: https://rahulshettyacademy.com
+            - listitem [ref=e117]:
+              - link "Playwright with JavaScript" [ref=e118] [cursor=pointer]:
+                - /url: https://rahulshettyacademy.com
+            - listitem [ref=e119]:
+              - link "RestAssured API Testing" [ref=e120] [cursor=pointer]:
+                - /url: https://rahulshettyacademy.com
+            - listitem [ref=e121]:
+              - link "Cypress End-to-End Testing" [ref=e122] [cursor=pointer]:
+                - /url: https://rahulshettyacademy.com
+            - listitem [ref=e123]:
+              - link "Appium Mobile Testing" [ref=e124] [cursor=pointer]:
+                - /url: https://rahulshettyacademy.com
+        - generic [ref=e125]:
+          - heading "QA Job Hiring Platform" [level=3] [ref=e126]
+          - paragraph [ref=e127]: Get hired faster — take skill assessments trusted by top QA employers worldwide.
+          - link "techsmarthire.com →" [ref=e128] [cursor=pointer]:
+            - /url: https://techsmarthire.com
+        - generic [ref=e129]:
+          - heading "EventHub Practice App" [level=3] [ref=e130]
+          - list [ref=e131]:
+            - listitem [ref=e132]:
+              - link "Browse Events" [ref=e133] [cursor=pointer]:
+                - /url: /events
+            - listitem [ref=e134]:
+              - link "My Bookings" [ref=e135] [cursor=pointer]:
+                - /url: /bookings
+            - listitem [ref=e136]:
+              - link "Manage Events" [ref=e137] [cursor=pointer]:
+                - /url: /admin/events
+            - listitem [ref=e138]:
+              - link "API Documentation" [ref=e139] [cursor=pointer]:
+                - /url: https://api.eventhub.rahulshettyacademy.com/api/docs
+      - generic [ref=e140]:
+        - paragraph [ref=e141]: © 2026 Rahul Shetty Academy. All rights reserved.
+        - generic [ref=e142]:
+          - link "rahulshettyacademy.com →" [ref=e143] [cursor=pointer]:
+            - /url: https://rahulshettyacademy.com
+          - link "techsmarthire.com →" [ref=e144] [cursor=pointer]:
+            - /url: https://techsmarthire.com
+  - alert [ref=e4]

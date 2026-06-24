@@ -1,99 +1,229 @@
 [
   {
-    "description": "",
+    "description": "  As an authenticated EventHub user\n  I want to book seats for an event\n  So that the booking appears in My Bookings and the event's available seats decrease",
     "elements": [
       {
         "description": "",
-        "id": "login;user-creates-a-new-event",
+        "id": "book-event;happy-path---logged-in-user-books-2-seats-for-the-dummy-event-'acme-test-concert-2026',-sees-a-success-toast,-the-booking-appears-in-my-bookings-as-confirmed,-and-the-event's-available-seats-decrease-by-2",
         "keyword": "Scenario",
-        "line": 13,
-        "name": "User creates a new Event",
+        "line": 12,
+        "name": "Happy path - Logged-in user books 2 seats for the dummy event 'Acme Test Concert 2026', sees a success toast, the booking appears in My Bookings as Confirmed, and the event's available seats decrease by 2",
         "steps": [
           {
             "keyword": "Before",
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 1060330875
+              "duration": 1855850399
             }
           },
           {
             "arguments": [],
             "keyword": "Given ",
-            "line": 14,
-            "name": "user login into the app",
+            "line": 9,
+            "name": "user logs in using the configured credentials",
             "match": {
-              "location": "src/tests/steps/test.ts:13"
+              "location": "src\\tests\\steps\\login.ts:16"
             },
             "result": {
               "status": "passed",
-              "duration": 2474819958
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "When ",
-            "line": 15,
-            "name": "user clicks on Events tab",
-            "match": {
-              "location": "src/tests/steps/test.ts:22"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 49877542
+              "duration": 3215254600
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "line": 16,
-            "name": "user clicks on add new event button",
+            "line": 10,
+            "name": "user clicks on Events tab",
             "match": {
-              "location": "src/tests/steps/test.ts:26"
+              "location": "src\\tests\\steps\\test.ts:22"
             },
             "result": {
               "status": "passed",
-              "duration": 1006868124
+              "duration": 444511499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "the user locates the event card for 'Acme Test Concert 2026' and captures the initial available seats",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:31"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 15032238699,
+              "error_message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('main article').filter({ has: locator('h3').filter({ hasText: /^\\s*Acme Test Concert 2026\\s*$/i }) }).first()\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"to.be.visible\" with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('main article').filter({ has: locator('h3').filter({ hasText: /^\\s*Acme Test Concert 2026\\s*$/i }) }).first()\u001b[22m\n\n    at captureRawStack (C:\\Users\\harsh\\PlaywrightProject\\node_modules\\playwright-core\\lib\\coreBundle.js:3130:17)\n    at callMatcherAsStep (C:\\Users\\harsh\\PlaywrightProject\\node_modules\\playwright\\lib\\matchers\\expect.js:12873:57)\n    at Object.toBeVisible (C:\\Users\\harsh\\PlaywrightProject\\node_modules\\playwright\\lib\\matchers\\expect.js:12863:23)\n    at CustomWorld.<anonymous> (C:\\Users\\harsh\\PlaywrightProject\\src\\tests\\steps\\book-event.ts:40:24)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the user clicks the Book Now button on the dummy event card",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:58"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "the booking form is visible",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:75"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 16,
+            "name": "the user fills the booking form with the dummy contact and payment data",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:85"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
             "line": 17,
-            "name": "user fills new Event form",
+            "name": "the user submits the booking form",
             "match": {
-              "location": "src/tests/steps/test.ts:30"
+              "location": "src\\tests\\steps\\book-event.ts:96"
             },
             "result": {
-              "status": "passed",
-              "duration": 96698625
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "line": 18,
-            "name": "user clicks on add event button",
-            "match": {
-              "location": "src/tests/steps/test.ts:40"
-            },
-            "result": {
-              "status": "passed",
-              "duration": 41831165
+              "status": "skipped",
+              "duration": 0
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "line": 19,
-            "name": "user validates Event has been created",
+            "line": 18,
+            "name": "the booking success toast is visible",
             "match": {
-              "location": "src/tests/steps/test.ts:44"
+              "location": "src\\tests\\steps\\book-event.ts:101"
             },
             "result": {
-              "status": "failed",
-              "duration": 5010121125,
-              "error_message": "Error: function timed out, ensure the promise resolves within 5000 milliseconds\n    at Timeout.<anonymous> (/Users/manishkumar/AI Projects/playwright/node_modules/@cucumber/cucumber/src/time.ts:50:14)\n    at listOnTimeout (node:internal/timers:594:17)\n    at processTimers (node:internal/timers:529:7)"
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 19,
+            "name": "the booking form is no longer visible",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:106"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "the user navigates to My Bookings",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:112"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 21,
+            "name": "the new booking for 'Acme Test Concert 2026' is visible at the top of My Bookings",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:120"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
+            "name": "the first booking card status is 'Confirmed'",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:127"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 23,
+            "name": "the first booking card shows 2 seats",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:132"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "the first booking card shows a price of either $49.99 or $99.98",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:139"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 25,
+            "name": "the user navigates back to the Events listing",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:146"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 26,
+            "name": "the dummy event card's available seats have decreased to 98",
+            "match": {
+              "location": "src\\tests\\steps\\book-event.ts:152"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
             }
           },
           {
@@ -101,24 +231,348 @@
             "hidden": true,
             "result": {
               "status": "passed",
-              "duration": 96535832
+              "duration": 1526195200
             }
           }
         ],
         "tags": [
           {
-            "name": "@test",
-            "line": 12
+            "name": "@TC_BKG_DMY_001",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "book-event",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Book Event",
+    "tags": [
+      {
+        "name": "@TC_BKG_DMY_001",
+        "line": 1
+      }
+    ],
+    "uri": "src\\tests\\features\\book-event.feature"
+  },
+  {
+    "description": "  As an authenticated EventHub user\n  I want to create a new event using the Add Event form\n  So that the new event appears in the Events listing",
+    "elements": [
+      {
+        "description": "",
+        "id": "event-creation;happy-path---create-a-new-event-with-all-valid-dummy-fields-and-verify-it-appears-in-the-listing",
+        "keyword": "Scenario",
+        "line": 12,
+        "name": "Happy path - Create a new event with all valid dummy fields and verify it appears in the listing",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1369123100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "user logs in using the configured credentials",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5813509899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 10,
+            "name": "user clicks on Events tab",
+            "match": {
+              "location": "src\\tests\\steps\\test.ts:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 470040999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "user clicks on add new event button",
+            "match": {
+              "location": "src\\tests\\steps\\test.ts:26"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 126026700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "user fills new Event form with dummy data",
+            "match": {
+              "location": "src\\tests\\steps\\event-creation.ts:20"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 30012340700,
+              "error_message": "Error: function timed out, ensure the promise resolves within 30000 milliseconds\n    at Timeout.<anonymous> (C:\\Users\\harsh\\PlaywrightProject\\node_modules\\@cucumber\\cucumber\\src\\time.ts:52:14)\n    at listOnTimeout (node:internal/timers:588:17)\n    at processTimers (node:internal/timers:523:7)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "user clicks on add event button",
+            "match": {
+              "location": "src\\tests\\steps\\test.ts:40"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "the Event created success toast is visible",
+            "match": {
+              "location": "src\\tests\\steps\\event-creation.ts:41"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 17,
+            "name": "the new event appears in the listing",
+            "match": {
+              "location": "src\\tests\\steps\\event-creation.ts:48"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 2026120800
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@TC_EVT_DMY_001",
+            "line": 1
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "event-creation",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Event Creation",
+    "tags": [
+      {
+        "name": "@TC_EVT_DMY_001",
+        "line": 1
+      }
+    ],
+    "uri": "src\\tests\\features\\event-creation.feature"
+  },
+  {
+    "description": "  As an authenticated EventHub user\n  I want to log out of the application\n  So that my session is terminated and I am returned to the login page",
+    "elements": [
+      {
+        "description": "",
+        "id": "login;logged-in-user-can-successfully-log-out-and-is-redirected-back-to-the-login-page",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Logged-in user can successfully log out and is redirected back to the login page",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 3286244099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "user logs in using the configured credentials",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5170639799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "the authenticated app shell is visible",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:27"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 15171346799,
+              "error_message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: locator('header nav, [role=\"navigation\"]:visible, .app-shell-nav, [data-testid=\"app-shell-nav\"]').first()\nExpected: visible\nTimeout: 15000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"to.be.visible\" with timeout 15000ms\u001b[22m\n\u001b[2m  - waiting for locator('header nav, [role=\"navigation\"]:visible, .app-shell-nav, [data-testid=\"app-shell-nav\"]').first()\u001b[22m\n\n    at captureRawStack (C:\\Users\\harsh\\PlaywrightProject\\node_modules\\playwright-core\\lib\\coreBundle.js:3130:17)\n    at callMatcherAsStep (C:\\Users\\harsh\\PlaywrightProject\\node_modules\\playwright\\lib\\matchers\\expect.js:12873:57)\n    at Object.toBeVisible (C:\\Users\\harsh\\PlaywrightProject\\node_modules\\playwright\\lib\\matchers\\expect.js:12863:23)\n    at CustomWorld.<anonymous> (C:\\Users\\harsh\\PlaywrightProject\\src\\tests\\steps\\login.ts:30:60)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the user clicks the profile menu button",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:36"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "the profile dropdown is visible and contains a Logout item",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:41"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "the user clicks the Logout item in the profile dropdown",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:50"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 14,
+            "name": "the user is redirected back to the login page",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:55"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "the login form is visible",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:63"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "the authenticated app shell is no longer visible",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:71"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 17,
+            "name": "the user clicks the browser Back button",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:79"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 18,
+            "name": "the previous authenticated page is not accessible without re-authentication",
+            "match": {
+              "location": "src\\tests\\steps\\login.ts:84"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 1537948000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@TC_LGO_001",
+            "line": 1
           }
         ],
         "type": "scenario"
       }
     ],
     "id": "login",
-    "line": 1,
+    "line": 2,
     "keyword": "Feature",
     "name": "Login",
-    "tags": [],
-    "uri": "src/tests/features/test.feature"
+    "tags": [
+      {
+        "name": "@TC_LGO_001",
+        "line": 1
+      }
+    ],
+    "uri": "src\\tests\\features\\login.feature"
   }
 ]

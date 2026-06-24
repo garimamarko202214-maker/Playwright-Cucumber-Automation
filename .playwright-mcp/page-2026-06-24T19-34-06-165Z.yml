@@ -1,0 +1,273 @@
+- generic [active] [ref=e1]:
+  - img
+  - generic [ref=e3]:
+    - generic [ref=e6]:
+      - img [ref=e8]
+      - button [ref=e44] [cursor=pointer]:
+        - img [ref=e45]
+    - generic [ref=e47]:
+      - generic:
+        - img
+      - generic [ref=e48]:
+        - generic [ref=e52]:
+          - heading "EventHub API 1.0.0 OAS 3.0" [level=1] [ref=e54]:
+            - text: EventHub API
+            - generic [ref=e55]:
+              - generic [ref=e57]: 1.0.0
+              - generic [ref=e59]: OAS 3.0
+          - generic [ref=e61]:
+            - paragraph [ref=e62]: REST API for the EventHub ticket booking platform.
+            - paragraph [ref=e63]: All event and booking operations are available here. Booking creation is atomic — seats are decremented in the same database transaction.
+        - generic [ref=e65]:
+          - generic [ref=e67]:
+            - text: Servers
+            - combobox [ref=e70]:
+              - option "https://api.eventhub.rahulshettyacademy.com/api - Production server" [selected]
+              - option "http://localhost:3001/api - Development server"
+          - button "Authorize" [ref=e72] [cursor=pointer]:
+            - generic [ref=e73]: Authorize
+            - img [ref=e74]
+        - generic [ref=e78]:
+          - generic [ref=e80]:
+            - heading "Auth Authentication — register, login, and token validation Collapse operation" [level=3] [ref=e81] [cursor=pointer]:
+              - link "Auth" [ref=e82]:
+                - /url: "#/Auth"
+              - paragraph [ref=e85]: Authentication — register, login, and token validation
+              - button "Collapse operation" [expanded] [ref=e86]:
+                - img [ref=e87]
+            - generic [ref=e90]:
+              - generic [ref=e93] [cursor=pointer]:
+                - button "POST /auth/register Register a new user" [ref=e94]:
+                  - generic [ref=e95]: POST
+                  - generic [ref=e96]:
+                    - link "/auth/register" [ref=e98]:
+                      - /url: "#/Auth/post_auth_register"
+                      - generic [ref=e99]:
+                        - text: /auth
+                        - text: /register
+                    - generic [ref=e100]: Register a new user
+                - generic "Copy to clipboard"
+                - button "post /auth/register" [ref=e103]:
+                  - img [ref=e104]
+              - generic [ref=e108] [cursor=pointer]:
+                - button "POST /auth/login Log in with existing credentials" [ref=e109]:
+                  - generic [ref=e110]: POST
+                  - generic [ref=e111]:
+                    - link "/auth/login" [ref=e113]:
+                      - /url: "#/Auth/post_auth_login"
+                      - generic [ref=e114]:
+                        - text: /auth
+                        - text: /login
+                    - generic [ref=e115]: Log in with existing credentials
+                - generic "Copy to clipboard"
+                - button "post /auth/login" [ref=e118]:
+                  - img [ref=e119]
+              - generic [ref=e123] [cursor=pointer]:
+                - button "GET /auth/me Get the currently authenticated user" [ref=e124]:
+                  - generic [ref=e125]: GET
+                  - generic [ref=e126]:
+                    - link "/auth/me" [ref=e128]:
+                      - /url: "#/Auth/get_auth_me"
+                      - generic [ref=e129]:
+                        - text: /auth
+                        - text: /me
+                    - generic [ref=e130]: Get the currently authenticated user
+                - generic "Copy to clipboard"
+                - button "authorization button unlocked" [ref=e133]:
+                  - img [ref=e134]
+                - button "get /auth/me" [ref=e136]:
+                  - img [ref=e137]
+          - generic [ref=e140]:
+            - heading "Events Event management — CRUD operations Collapse operation" [level=3] [ref=e141] [cursor=pointer]:
+              - link "Events" [ref=e142]:
+                - /url: "#/Events"
+              - paragraph [ref=e145]: Event management — CRUD operations
+              - button "Collapse operation" [expanded] [ref=e146]:
+                - img [ref=e147]
+            - generic [ref=e150]:
+              - generic [ref=e153] [cursor=pointer]:
+                - button "GET /events List all events" [ref=e154]:
+                  - generic [ref=e155]: GET
+                  - generic [ref=e156]:
+                    - link "/events" [ref=e158]:
+                      - /url: "#/Events/get_events"
+                    - generic [ref=e159]: List all events
+                - generic "Copy to clipboard"
+                - button "get /events" [ref=e162]:
+                  - img [ref=e163]
+              - generic [ref=e167] [cursor=pointer]:
+                - button "POST /events Create a new event" [ref=e168]:
+                  - generic [ref=e169]: POST
+                  - generic [ref=e170]:
+                    - link "/events" [ref=e172]:
+                      - /url: "#/Events/post_events"
+                    - generic [ref=e173]: Create a new event
+                - generic "Copy to clipboard"
+                - button "post /events" [ref=e176]:
+                  - img [ref=e177]
+              - generic [ref=e181] [cursor=pointer]:
+                - 'button "GET /events/{id} Get a single event by ID" [ref=e182]':
+                  - generic [ref=e183]: GET
+                  - generic [ref=e184]:
+                    - 'link "/events/{id}" [ref=e186]':
+                      - /url: "#/Events/get_events__id_"
+                      - generic [ref=e187]:
+                        - text: /events
+                        - text: "/{id}"
+                    - generic [ref=e188]: Get a single event by ID
+                - generic "Copy to clipboard"
+                - 'button "get /events/{id}" [ref=e191]':
+                  - img [ref=e192]
+              - generic [ref=e196] [cursor=pointer]:
+                - 'button "PUT /events/{id} Update an event" [ref=e197]':
+                  - generic [ref=e198]: PUT
+                  - generic [ref=e199]:
+                    - 'link "/events/{id}" [ref=e201]':
+                      - /url: "#/Events/put_events__id_"
+                      - generic [ref=e202]:
+                        - text: /events
+                        - text: "/{id}"
+                    - generic [ref=e203]: Update an event
+                - generic "Copy to clipboard"
+                - 'button "put /events/{id}" [ref=e206]':
+                  - img [ref=e207]
+              - generic [ref=e211] [cursor=pointer]:
+                - 'button "DELETE /events/{id} Delete an event" [ref=e212]':
+                  - generic [ref=e213]: DELETE
+                  - generic [ref=e214]:
+                    - 'link "/events/{id}" [ref=e216]':
+                      - /url: "#/Events/delete_events__id_"
+                      - generic [ref=e217]:
+                        - text: /events
+                        - text: "/{id}"
+                    - generic [ref=e218]: Delete an event
+                - generic "Copy to clipboard"
+                - 'button "delete /events/{id}" [ref=e221]':
+                  - img [ref=e222]
+          - generic [ref=e225]:
+            - heading "Bookings Ticket booking — create, view, and cancel bookings Collapse operation" [level=3] [ref=e226] [cursor=pointer]:
+              - link "Bookings" [ref=e227]:
+                - /url: "#/Bookings"
+              - paragraph [ref=e230]: Ticket booking — create, view, and cancel bookings
+              - button "Collapse operation" [expanded] [ref=e231]:
+                - img [ref=e232]
+            - generic [ref=e235]:
+              - generic [ref=e238] [cursor=pointer]:
+                - button "GET /bookings List all bookings" [ref=e239]:
+                  - generic [ref=e240]: GET
+                  - generic [ref=e241]:
+                    - link "/bookings" [ref=e243]:
+                      - /url: "#/Bookings/get_bookings"
+                    - generic [ref=e244]: List all bookings
+                - generic "Copy to clipboard"
+                - button "get /bookings" [ref=e247]:
+                  - img [ref=e248]
+              - generic [ref=e252] [cursor=pointer]:
+                - button "POST /bookings Create a booking (buy tickets)" [ref=e253]:
+                  - generic [ref=e254]: POST
+                  - generic [ref=e255]:
+                    - link "/bookings" [ref=e257]:
+                      - /url: "#/Bookings/post_bookings"
+                    - generic [ref=e258]: Create a booking (buy tickets)
+                - generic "Copy to clipboard"
+                - button "post /bookings" [ref=e261]:
+                  - img [ref=e262]
+              - generic [ref=e266] [cursor=pointer]:
+                - 'button "GET /bookings/ref/{ref} Look up a booking by reference code" [ref=e267]':
+                  - generic [ref=e268]: GET
+                  - generic [ref=e269]:
+                    - 'link "/bookings/ref/{ref}" [ref=e271]':
+                      - /url: "#/Bookings/get_bookings_ref__ref_"
+                      - generic [ref=e272]:
+                        - text: /bookings
+                        - text: /ref
+                        - text: "/{ref}"
+                    - generic [ref=e273]: Look up a booking by reference code
+                - generic "Copy to clipboard"
+                - 'button "get /bookings/ref/{ref}" [ref=e276]':
+                  - img [ref=e277]
+              - generic [ref=e281] [cursor=pointer]:
+                - 'button "GET /bookings/{id} Get a single booking by ID" [ref=e282]':
+                  - generic [ref=e283]: GET
+                  - generic [ref=e284]:
+                    - 'link "/bookings/{id}" [ref=e286]':
+                      - /url: "#/Bookings/get_bookings__id_"
+                      - generic [ref=e287]:
+                        - text: /bookings
+                        - text: "/{id}"
+                    - generic [ref=e288]: Get a single booking by ID
+                - generic "Copy to clipboard"
+                - 'button "get /bookings/{id}" [ref=e291]':
+                  - img [ref=e292]
+              - generic [ref=e296] [cursor=pointer]:
+                - 'button "DELETE /bookings/{id} Cancel a booking" [ref=e297]':
+                  - generic [ref=e298]: DELETE
+                  - generic [ref=e299]:
+                    - 'link "/bookings/{id}" [ref=e301]':
+                      - /url: "#/Bookings/delete_bookings__id_"
+                      - generic [ref=e302]:
+                        - text: /bookings
+                        - text: "/{id}"
+                    - generic [ref=e303]: Cancel a booking
+                - generic "Copy to clipboard"
+                - 'button "delete /bookings/{id}" [ref=e306]':
+                  - img [ref=e307]
+          - generic [ref=e310]:
+            - heading "Health API health check Collapse operation" [level=3] [ref=e311] [cursor=pointer]:
+              - link "Health" [ref=e312]:
+                - /url: "#/Health"
+              - paragraph [ref=e315]: API health check
+              - button "Collapse operation" [expanded] [ref=e316]:
+                - img [ref=e317]
+            - generic [ref=e323] [cursor=pointer]:
+              - button "GET /health API health check" [ref=e324]:
+                - generic [ref=e325]: GET
+                - generic [ref=e326]:
+                  - link "/health" [ref=e328]:
+                    - /url: "#/Health/get_health"
+                  - generic [ref=e329]: API health check
+              - generic "Copy to clipboard"
+              - button "get /health" [ref=e332]:
+                - img [ref=e333]
+          - generic [ref=e336]:
+            - heading "Config Collapse operation" [level=3] [ref=e337] [cursor=pointer]:
+              - link "Config" [ref=e338]:
+                - /url: "#/Config"
+              - button "Collapse operation" [expanded] [ref=e339]:
+                - img [ref=e340]
+            - generic [ref=e346] [cursor=pointer]:
+              - button "GET /config Get public feature flags" [ref=e347]:
+                - generic [ref=e348]: GET
+                - generic [ref=e349]:
+                  - link "/config" [ref=e351]:
+                    - /url: "#/Config/get_config"
+                  - generic [ref=e352]: Get public feature flags
+              - generic "Copy to clipboard"
+              - button "get /config" [ref=e355]:
+                - img [ref=e356]
+        - generic [ref=e360]:
+          - heading "Schemas" [level=4] [ref=e361] [cursor=pointer]:
+            - button "Schemas" [expanded] [ref=e362]:
+              - generic [ref=e363]: Schemas
+              - img [ref=e364]
+          - generic [ref=e366]:
+            - button "AuthInput" [ref=e369] [cursor=pointer]:
+              - generic [ref=e371]: AuthInput
+            - button "AuthResponse" [ref=e375] [cursor=pointer]:
+              - generic [ref=e377]: AuthResponse
+            - button "MeResponse" [ref=e381] [cursor=pointer]:
+              - generic [ref=e383]: MeResponse
+            - button "Booking" [ref=e387] [cursor=pointer]:
+              - generic [ref=e389]: Booking
+            - button "CreateBookingInput" [ref=e393] [cursor=pointer]:
+              - generic [ref=e395]: CreateBookingInput
+            - button "Event" [ref=e399] [cursor=pointer]:
+              - generic [ref=e401]: Event
+            - button "CreateEventInput" [ref=e405] [cursor=pointer]:
+              - generic [ref=e407]: CreateEventInput
+            - button "PaginationMeta" [ref=e411] [cursor=pointer]:
+              - generic [ref=e413]: PaginationMeta
+            - button "ErrorResponse" [ref=e417] [cursor=pointer]:
+              - generic [ref=e419]: ErrorResponse
+            - button "ValidationErrorResponse" [ref=e423] [cursor=pointer]:
+              - generic [ref=e425]: ValidationErrorResponse

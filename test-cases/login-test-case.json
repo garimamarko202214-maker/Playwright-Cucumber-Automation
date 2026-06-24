@@ -1,0 +1,35 @@
+
+{
+  "testCaseId": "TC-LGO-001",
+  "title": "Verify that a logged-in user can successfully log out and is redirected back to the login page",
+  "module": "Login",
+  "priority": "High",
+  "type": "Functional",
+  "preconditions": [
+    "Application is reachable at https://eventhub.rahulshettyacademy.com/",
+    "User is not authenticated (begins from the login page, or has an active session that can be terminated by logging out first)",
+    "Valid demo credentials available: email 'manish123@gmail.com', password 'Manish9@@'",
+    "Browser: Chromium (project default), viewport 1366x768"
+  ],
+  "testSteps": [
+    { "step": 1, "action": "Navigate to https://eventhub.rahulshettyacademy.com/ and wait for the login form to be visible", "testData": "URL: https://eventhub.rahulshettyacademy.com/" },
+    { "step": 2, "action": "Enter the demo email into the user email input (placeholder 'you@email.com')", "testData": "Email: manish123@gmail.com" },
+    { "step": 3, "action": "Enter the demo password into the password input (placeholder '••••••')", "testData": "Password: Manish9@@" },
+    { "step": 4, "action": "Click the 'Sign In' button and wait for the post-login app shell to render (URL changes away from /login and the top navigation is visible)", "testData": "n/a" },
+    { "step": 5, "action": "Verify the user is authenticated (Events tab is visible in the top nav and the URL does not contain '/login')", "testData": "n/a" },
+    { "step": 6, "action": "Click the user/profile menu in the top-right of the app shell to open the account dropdown", "testData": "Locator: profileMenuButton (button near top-right of the header)" },
+    { "step": 7, "action": "Verify a dropdown appears containing at least a 'Logout' (or 'Sign out', 'Log out') action item", "testData": "n/a" },
+    { "step": 8, "action": "Click the 'Logout' item in the dropdown", "testData": "Locator: dropdown item with visible text matching /log\\s*out|sign\\s*out/i" },
+    { "step": 9, "action": "Wait for the post-logout redirect to complete and observe the URL and visible UI", "testData": "n/a" },
+    { "step": 10, "action": "Verify the user is redirected back to the login page (URL ends with '/login' or matches the login route) and the login form is visible", "testData": "n/a" },
+    { "step": 11, "action": "Verify the previously authenticated app shell (top navigation, Events tab, My Bookings tab) is no longer visible", "testData": "n/a" },
+    { "step": 12, "action": "Click the browser Back button once and verify that the previous authenticated page is not accessible without re-authentication (the user is forced back to the login page, or the protected route is not re-rendered with the prior session)", "testData": "n/a" }
+  ],
+  "expectedResult": "The user can successfully log out from a logged-in session. The user/profile dropdown reveals a Logout option; clicking it terminates the session and redirects the user back to the EventHub login page. The login form is visible again, the authenticated app shell (top nav with Events / My Bookings) is gone, and the protected route is no longer reachable with the prior session when the Back button is pressed (no stale authenticated state is shown).",
+  "testData": {
+    "userEmail": "manish123@gmail.com",
+    "userPassword": "Manish9@@",
+    "expectedPostLogoutUrl": "https://eventhub.rahulshettyacademy.com/login",
+    "logoutActionLabels": ["Logout", "Log out", "Sign out", "Sign Out"]
+  }
+}
