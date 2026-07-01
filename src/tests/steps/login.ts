@@ -88,6 +88,7 @@ Then('the login form is visible',
     // Email and password inputs must be present in the login form.
     await expect(this.pageLocator.testPage.userEmailInput).toBeVisible();
     await expect(this.pageLocator.testPage.passwordInput).toBeVisible();
+    await this.page.pause();
   });
 
 Then('the authenticated app shell is no longer visible',
@@ -96,11 +97,13 @@ Then('the authenticated app shell is no longer visible',
     await expect(this.pageLocator.testPage.appShellTopNav).toHaveCount(0);
     await expect(this.pageLocator.testPage.eventTab).toHaveCount(0);
     await expect(this.pageLocator.testPage.bookingsNavLink).toHaveCount(0);
+    await this.page.pause();
   });
 
 When('the user clicks the browser Back button',
   async function (this: CustomWorld) {
     await this.page.goBack({ waitUntil: 'domcontentloaded' });
+    
   });
 
 Then('the previous authenticated page is not accessible without re-authentication',

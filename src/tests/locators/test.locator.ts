@@ -108,6 +108,41 @@ readonly logoutMenuItem: Locator;
 readonly appShellTopNav: Locator;
 readonly loginForm: Locator;
 
+// --- Create Account page locators (TC_CREATE_ACCOUNT_001 .. TC_CREATE_ACCOUNT_035) ---
+// Locators for the EventHub signup form. The form is reached via a
+// "Create your account" / "Sign Up" link on the login page. Field-level
+// locators combine role/label-based access (which works even when no
+// stable id/placeholder is present) with attribute/data-testid fallbacks.
+readonly createAccountLink: Locator;
+readonly createAccountForm: Locator;
+readonly firstNameInput: Locator;
+readonly lastNameInput: Locator;
+readonly registerEmailInput: Locator;
+readonly registerPhoneInput: Locator;
+readonly registerPasswordInput: Locator;
+readonly registerConfirmPasswordInput: Locator;
+readonly createAccountSubmitButton: Locator;
+
+// Per-field inline error messages. The form uses common error containers
+// (.error / .field-error / .invalid-feedback / role="alert"); each field's
+// error is also addressable via an aria-describedby / sibling pattern.
+readonly firstNameError: Locator;
+readonly lastNameError: Locator;
+readonly registerEmailError: Locator;
+readonly registerPhoneError: Locator;
+readonly registerPasswordError: Locator;
+readonly registerConfirmPasswordError: Locator;
+readonly anyRegisterFormError: Locator;
+
+// Success / failure feedback surfaces after submission.
+readonly registerSuccessToast: Locator;
+readonly registerSuccessHeading: Locator;
+readonly registerDuplicateEmailError: Locator;
+readonly registerServerError: Locator;
+
+// Password show/hide toggle (eye icon) — TC_CREATE_ACCOUNT_019.
+readonly passwordVisibilityToggle: Locator;
+
 // --- Book Event form locators (TC_BKG_DMY_001) ---
 // Action that opens the booking form/modal on an event card. Matches the four
 // label variants listed in the JSON (Book Now / Book Event / Reserve / Register).
@@ -462,6 +497,169 @@ readonly availableSeatsLabel: Locator;
       'main article :text-matches("\\\\bseats?\\\\b", "i"), ' +
       '.event-card :text-matches("\\\\bseats?\\\\b", "i")'
     ).first();
+
+    // --- Create Account page locators ------------------------------------
+    // Link on the login page that opens the signup form. Match any of the
+    // four common labels listed in the JSON: "Create your account",
+    // "Sign Up", "Sign up", "Register".
+    this.createAccountLink = page.getByRole('link', {
+      name: /create\s*(your\s*)?(new\s*)?account|sign\s*up|register/i
+    }).or(page.getByRole('button', {
+      name: /create\s*(your\s*)?(new\s*)?account|sign\s*up|register/i
+    })).first();
+
+    // The signup form container — visible modal/page form. Mirrors the
+    // pattern used for addEventForm and bookingForm.
+    this.createAccountForm = page.locator(
+      'form:visible, .signup-form:visible, .register-form:visible, ' +
+      '[data-testid="register-form"]:visible, [data-testid="signup-form"]:visible, ' +
+      'form#register-form, form#signup-form'
+    ).first();
+
+    // Field inputs — role/label-based selectors are the primary strategy
+    // because EventHub inputs are often unlabelled by id or placeholder.
+    this.firstNameInput = page.getByRole('textbox', {
+      name: /^first\s*name\*?$/i
+    }).or(page.locator(
+      'input[name*="firstName" i], input[placeholder*="first" i], ' +
+      '#first-name, [data-testid="first-name"]'
+    )).first();
+
+    this.lastNameInput = page.getByRole('textbox', {
+      name: /^last\s*name\*?$/i
+    }).or(page.locator(
+      'input[name*="lastName" i], input[placeholder*="last" i], ' +
+      '#last-name, [data-testid="last-name"]'
+    )).first();
+
+    this.registerEmailInput = page.getByRole('textbox', {
+      name: /^e-?mail(\s*address)?\*?$/i
+    }).or(page.locator(
+      'input[type="email"]:visible, input[name*="email" i]:visible, ' +
+      '#register-email, #signup-email, [data-testid="register-email"]'
+    )).first();
+
+    this.registerPhoneInput = page.getByRole('textbox', {
+      name: /^phone(\s*number)?\*?$/i
+    }).or(page.getByRole('spinbutton', {
+      name: /^phone(\s*number)?\*?$/i
+    })).or(page.locator(
+      'input[type="tel"]:visible, input[name*="phone" i]:visible, ' +
+      '#phone, [data-testid="register-phone"]'
+    )).first();
+
+    this.registerPasswordInput = page.getByRole('textbox', {
+      name: /^password\*?$/i
+    }).or(page.locator(
+      'input[type="password"]:visible[name*="password" i]:not([name*="confirm" i]), ' +
+      '#password, [data-testid="register-password"]'
+    )).first();
+
+    this.registerConfirmPasswordInput = page.getByRole('textbox', {
+      name: /confirm\s*password\*?$/i
+    }).or(page.locator(
+      'input[type="password"]:visible[name*="confirm" i], ' +
+      '#confirm-password, [data-testid="confirm-password"]'
+    )).first();
+
+    // The submit button — match the four common label variants from the
+    // JSON (Create Account / Sign Up / Register / Submit).
+    this.createAccountSubmitButton = page.getByRole('button', {
+      name: /create\s*account|sign\s*up|^register$|^submit$/i
+    }).first();
+
+    // Per-field inline error messages. The form may use .error /
+    // .field-error / .invalid-feedback / role="alert" / .text-danger.
+    // We try a sibling-of-input pattern (error sits directly below the
+    // input) and an aria-describedby / data-testid pattern.
+    this.firstNameError = this.firstNameInput.locator(
+      'xpath=following-sibling::*[contains(@class,"error") or ' +
+      'contains(@class,"invalid-feedback") or contains(@class,"text-danger") or ' +
+      'contains(@class,"field-error")][1]'
+    ).or(page.locator(
+      '#first-name-error, [data-testid="first-name-error"]'
+    )).first();
+
+    this.lastNameError = this.lastNameInput.locator(
+      'xpath=following-sibling::*[contains(@class,"error") or ' +
+      'contains(@class,"invalid-feedback") or contains(@class,"text-danger") or ' +
+      'contains(@class,"field-error")][1]'
+    ).or(page.locator(
+      '#last-name-error, [data-testid="last-name-error"]'
+    )).first();
+
+    this.registerEmailError = this.registerEmailInput.locator(
+      'xpath=following-sibling::*[contains(@class,"error") or ' +
+      'contains(@class,"invalid-feedback") or contains(@class,"text-danger") or ' +
+      'contains(@class,"field-error")][1]'
+    ).or(page.locator(
+      '#register-email-error, [data-testid="register-email-error"]'
+    )).first();
+
+    this.registerPhoneError = this.registerPhoneInput.locator(
+      'xpath=following-sibling::*[contains(@class,"error") or ' +
+      'contains(@class,"invalid-feedback") or contains(@class,"text-danger") or ' +
+      'contains(@class,"field-error")][1]'
+    ).or(page.locator(
+      '#phone-error, [data-testid="register-phone-error"]'
+    )).first();
+
+    this.registerPasswordError = this.registerPasswordInput.locator(
+      'xpath=following-sibling::*[contains(@class,"error") or ' +
+      'contains(@class,"invalid-feedback") or contains(@class,"text-danger") or ' +
+      'contains(@class,"field-error")][1]'
+    ).or(page.locator(
+      '#password-error, [data-testid="register-password-error"]'
+    )).first();
+
+    this.registerConfirmPasswordError = this.registerConfirmPasswordInput.locator(
+      'xpath=following-sibling::*[contains(@class,"error") or ' +
+      'contains(@class,"invalid-feedback") or contains(@class,"text-danger") or ' +
+      'contains(@class,"field-error")][1]'
+    ).or(page.locator(
+      '#confirm-password-error, [data-testid="confirm-password-error"]'
+    )).first();
+
+    // Generic "any error visible" — used in scenarios that assert the form
+    // did not silently submit. The selector intentionally restricts to
+    // visible elements and the common error classes used by EventHub.
+    this.anyRegisterFormError = page.locator(
+      '.error:visible, .invalid-feedback:visible, .field-error:visible, ' +
+      '[role="alert"]:visible, .text-danger:visible, .error-message:visible'
+    );
+
+    // Success toast / inline message after a successful registration. The
+    // heading locator exposes the title text for the success assertion.
+    this.registerSuccessToast = page.locator(
+      '.toast:visible, .alert-success:visible, [role="status"]:visible, ' +
+      '[data-testid="toast-success"]:visible, [data-testid="register-success-toast"]:visible'
+    ).filter({ hasText: /account\s*created|registered\s*successfully|sign-?up\s*success/i }).first();
+
+    this.registerSuccessHeading = this.registerSuccessToast.locator(
+      '.toast-title, .toast-message, p, span, div'
+    ).first();
+
+    // Duplicate-email error (TC_CREATE_ACCOUNT_015 / 022 / 023).
+    this.registerDuplicateEmailError = page.locator(
+      '.toast-error, .alert-danger, [role="alert"], [data-testid="register-duplicate-email"]'
+    ).filter({ hasText: /already\s*exists|already\s*registered|email\s*is\s*taken/i }).first();
+
+    // Server-side / generic error (TC_CREATE_ACCOUNT_028).
+    this.registerServerError = page.locator(
+      '.toast-error, .alert-danger, [role="alert"], [data-testid="register-server-error"]'
+    ).filter({ hasText: /something\s*went\s*wrong|server|try\s*again|unexpected/i }).first();
+
+    // Password show/hide toggle (eye icon) inside or adjacent to the
+    // Password field. The toggle is typically a button with an aria-label
+    // of "Show password" / "Hide password" or a data-testid hook.
+    this.passwordVisibilityToggle = this.registerPasswordInput.locator(
+      'xpath=following-sibling::button[1]'
+    ).or(page.locator(
+      'button[aria-label*="show" i][aria-label*="password" i], ' +
+      'button[aria-label*="hide" i][aria-label*="password" i], ' +
+      'button[aria-label*="toggle" i][aria-label*="password" i], ' +
+      '[data-testid="password-toggle"], [data-testid="toggle-password"]'
+    )).first();
   }
 
   // -------------------------------------------------------------------------
@@ -529,5 +727,118 @@ readonly availableSeatsLabel: Locator;
       ? this.confirmedBookingCards
       : this.cancelledBookingCards;
     return await set.count();
+  }
+
+  // -------------------------------------------------------------------------
+  // Create Account helper actions (TC_CREATE_ACCOUNT_001 .. TC_CREATE_ACCOUNT_035)
+  //
+  // Each helper wraps a single field-fill or button-click. Centralising them
+  // keeps the step definitions declarative and means a future DOM change
+  // only requires patching the locator or one helper method.
+  // -------------------------------------------------------------------------
+
+  /** Navigate to the EventHub login page and wait for the form to render. */
+  async gotoEventHubLoginPage(): Promise<void> {
+    await this.page.goto('https://eventhub.rahulshettyacademy.com/');
+    await this.userEmailInput.waitFor({ state: 'visible', timeout: 15000 });
+  }
+
+  /** Click the "Create your account" / "Sign Up" link on the login page. */
+  async clickCreateAccountLink(): Promise<void> {
+    await this.createAccountLink.click();
+    await this.createAccountForm.waitFor({ state: 'visible', timeout: 15000 });
+  }
+
+  /** Fill the First Name field. */
+  async fillFirstName(value: string): Promise<void> {
+    await this.firstNameInput.fill(value);
+  }
+
+  /** Fill the Last Name field. */
+  async fillLastName(value: string): Promise<void> {
+    await this.lastNameInput.fill(value);
+  }
+
+  /** Fill the register Email field. */
+  async fillRegisterEmail(value: string): Promise<void> {
+    await this.registerEmailInput.fill(value);
+  }
+
+  /** Fill the Phone Number field. */
+  async fillRegisterPhone(value: string): Promise<void> {
+    await this.registerPhoneInput.fill(value);
+  }
+
+  /** Fill the Password field. */
+  async fillRegisterPassword(value: string): Promise<void> {
+    await this.registerPasswordInput.fill(value);
+  }
+
+  /** Fill the Confirm Password field. */
+  async fillRegisterConfirmPassword(value: string): Promise<void> {
+    await this.registerConfirmPasswordInput.fill(value);
+  }
+
+  /** Clear the Phone Number field (used between sub-attempts in TC_017). */
+  async clearRegisterPhone(): Promise<void> {
+    await this.registerPhoneInput.fill('');
+  }
+
+  /** Clear the Email field (used between sub-attempts in TC_011). */
+  async clearRegisterEmail(): Promise<void> {
+    await this.registerEmailInput.fill('');
+  }
+
+  /** Click the submit button on the Create Account form. */
+  async clickCreateAccountSubmit(): Promise<void> {
+    await this.createAccountSubmitButton.click();
+  }
+
+  /** Wait until the registration success toast becomes visible. */
+  async waitForRegisterSuccessToast(): Promise<void> {
+    await this.registerSuccessToast.waitFor({ state: 'visible', timeout: 15000 });
+  }
+
+  /** Wait until the duplicate-email error message becomes visible. */
+  async waitForDuplicateEmailError(): Promise<void> {
+    await this.registerDuplicateEmailError.waitFor({ state: 'visible', timeout: 15000 });
+  }
+
+  /** Wait until a server-side error message becomes visible. */
+  async waitForRegisterServerError(): Promise<void> {
+    await this.registerServerError.waitFor({ state: 'visible', timeout: 15000 });
+  }
+
+  /**
+   * Returns the form's submit button enabled state — used to assert
+   * enabled/disabled for TC_CREATE_ACCOUNT_024.
+   */
+  async isCreateAccountSubmitEnabled(): Promise<boolean> {
+    return await this.createAccountSubmitButton.isEnabled();
+  }
+
+  /** Click the password show/hide toggle (eye icon). */
+  async clickPasswordVisibilityToggle(): Promise<void> {
+    await this.passwordVisibilityToggle.click();
+  }
+
+  /**
+   * Force the next signup request to return a 500 response. Used by
+   * TC_CREATE_ACCOUNT_028. The wildcard covers the various signup
+   * endpoint names used by EventHub (e.g. /api/register, /signup).
+   */
+  async stubSignupServerError(): Promise<void> {
+    await this.page.route('**/api/**', async (route) => {
+      await route.fulfill({
+        status: 500,
+        contentType: 'application/json',
+        body: JSON.stringify({ message: 'Internal Server Error' }),
+      });
+    });
+  }
+
+  /** Resize the viewport to a mobile size (TC_CREATE_ACCOUNT_026). */
+  async setMobileViewport(): Promise<void> {
+    await this.page.setViewportSize({ width: 375, height: 667 });
   }
 }

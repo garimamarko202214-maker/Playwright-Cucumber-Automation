@@ -1,0 +1,150 @@
+[
+  {
+    "testCaseId": "TC_CREATE_ACCOUNT_001",
+    "testCaseName": "Verify successful account creation with all valid data",
+    "description": "End-to-end positive scenario: a new user can successfully register on EventHub by filling all required fields with valid fake data and is redirected to the login or dashboard page.",
+    "module": "Create Account",
+    "priority": "High",
+    "type": "Functional",
+    "preconditions": [
+      "Application is reachable at https://eventhub.rahulshettyacademy.com/",
+      "User is on the Sign Up / Create your account page (reached via the Register link on the login page)",
+      "Browser: Chromium (project default), viewport 1366x768",
+      "Test email is unique and not already registered on the platform"
+    ],
+    "testSteps": [
+      { "step": 1, "action": "Navigate to https://eventhub.rahulshettyacademy.com/ and click the 'Register' link from the login page", "testData": "URL: https://eventhub.rahulshettyacademy.com/" },
+      { "step": 2, "action": "Verify the Create Account form is displayed with all required fields visible (First Name, Last Name, Email, Phone Number, Password, Confirm Password, and Create Account button)", "testData": "n/a" },
+      { "step": 3, "action": "Enter a valid first name in the First Name field", "testData": "First Name: TestFirst" },
+      { "step": 4, "action": "Enter a valid last name in the Last Name field", "testData": "Last Name: TestLast" },
+      { "step": 5, "action": "Enter a unique, valid fake email address in the Email field", "testData": "Email: testuser2026@example.com" },
+      { "step": 6, "action": "Enter a valid 10-digit phone number in the Phone Number field", "testData": "Phone: 9876543210" },
+      { "step": 7, "action": "Enter a strong password that satisfies all stated rules (uppercase, lowercase, digit, special character, min length)", "testData": "Password: Test@123456" },
+      { "step": 8, "action": "Re-enter the same password in the Confirm Password field", "testData": "Confirm Password: Test@123456" },
+      { "step": 9, "action": "Click the 'Create Account' / 'Sign Up' button", "testData": "Locator: submitButton" },
+      { "step": 10, "action": "Wait for the form submission to complete and observe the response", "testData": "n/a" },
+      { "step": 11, "action": "Verify a success message is displayed (e.g., 'Account created successfully') and the user is redirected to the login page or auto-logged into the dashboard", "testData": "n/a" }
+    ],
+    "testData": {
+      "firstName": "TestFirst",
+      "lastName": "TestLast",
+      "email": "testuser2026@example.com",
+      "phone": "9876543210",
+      "password": "Test@123456",
+      "confirmPassword": "Test@123456"
+    },
+    "expectedResult": "The user is successfully registered on EventHub. A success confirmation message is displayed and the user is either redirected to the login page (with a 'registered successfully' notice) or automatically signed in to the dashboard.",
+    "actualResult": "",
+    "status": "",
+    "tags": ["@smoke", "@regression", "@TC_CREATE_ACCOUNT_001", "@create-account", "@positive"]
+  },
+  {
+    "testCaseId": "TC_CREATE_ACCOUNT_002",
+    "testCaseName": "Verify 'Register' link is accessible from the login page",
+    "description": "Navigation/UI test: a new user must be able to discover the signup flow from the existing login page via the 'Register' link.",
+    "module": "Create Account",
+    "priority": "High",
+    "type": "UI/Navigation",
+    "preconditions": [
+      "Application is reachable at https://eventhub.rahulshettyacademy.com/",
+      "User is on the login page"
+    ],
+    "testSteps": [
+      { "step": 1, "action": "Navigate to https://eventhub.rahulshettyacademy.com/ and wait for the login form to render", "testData": "n/a" },
+      { "step": 2, "action": "Look for a 'Register' link on the login page (text 'Don't have an account? Register')", "testData": "n/a" },
+      { "step": 3, "action": "Click the 'Register' link", "testData": "n/a" },
+      { "step": 4, "action": "Verify the URL changes to a signup route (e.g., /register or /sign-up) and the Create Account form is displayed", "testData": "n/a" }
+    ],
+    "testData": {},
+    "expectedResult": "The 'Register' link is clearly visible on the login page. Clicking it navigates the user to the Create Account / Sign Up form.",
+    "actualResult": "",
+    "status": "",
+    "tags": ["@smoke", "@regression", "@TC_CREATE_ACCOUNT_002", "@create-account", "@navigation", "@ui"]
+  },
+  {
+    "testCaseId": "TC_CREATE_ACCOUNT_003",
+    "testCaseName": "Verify password and confirm password mismatch is rejected",
+    "description": "Negative field validation: when Password and Confirm Password values do not match, the form must surface a mismatch error and block submission.",
+    "module": "Create Account",
+    "priority": "High",
+    "type": "Validation",
+    "preconditions": [
+      "User is on the Create Account page"
+    ],
+    "testSteps": [
+      { "step": 1, "action": "Fill all fields with valid data but enter different values in Password and Confirm Password", "testData": "First Name: TestFirst, Last Name: TestLast, Email: testuser2026@example.com, Phone: 9876543210, Password: Test@123456, Confirm Password: Test@654321" },
+      { "step": 2, "action": "Click the 'Create Account' button", "testData": "n/a" },
+      { "step": 3, "action": "Verify the Confirm Password field shows a 'Passwords do not match' (or equivalent) error and the form is not submitted", "testData": "n/a" }
+    ],
+    "testData": {
+      "firstName": "TestFirst",
+      "lastName": "TestLast",
+      "email": "testuser2026@example.com",
+      "phone": "9876543210",
+      "password": "Test@123456",
+      "confirmPassword": "Test@654321"
+    },
+    "expectedResult": "A password-mismatch error is displayed for the Confirm Password field. The form is not submitted and no account is created.",
+    "actualResult": "",
+    "status": "",
+    "tags": ["@regression", "@TC_CREATE_ACCOUNT_003", "@create-account", "@negative", "@validation", "@password-mismatch"]
+  },
+  {
+    "testCaseId": "TC_CREATE_ACCOUNT_004",
+    "testCaseName": "Verify registering with an already-used email is rejected",
+    "description": "Negative/duplicate scenario: attempting to register with an email that already exists in the system must surface a duplicate-email error.",
+    "module": "Create Account",
+    "priority": "High",
+    "type": "Functional",
+    "preconditions": [
+      "User is on the Create Account page",
+      "An account with email 'ginni@gmail.com' already exists on the platform (the demo account configured in testD.config.json)"
+    ],
+    "testSteps": [
+      { "step": 1, "action": "Fill the form with a unique name/phone and a strong password, but use an email that is already registered", "testData": "First Name: TestFirst, Last Name: TestLast, Email: ginni@gmail.com, Phone: 9876543210, Password: Test@123456, Confirm Password: Test@123456" },
+      { "step": 2, "action": "Click the 'Create Account' button", "testData": "n/a" },
+      { "step": 3, "action": "Observe the response and any error message", "testData": "n/a" },
+      { "step": 4, "action": "Verify a 'User with this email already exists' (or equivalent) error is shown and no new account is created", "testData": "n/a" }
+    ],
+    "testData": {
+      "firstName": "TestFirst",
+      "lastName": "TestLast",
+      "email": "ginni@gmail.com",
+      "phone": "9876543210",
+      "password": "Test@123456",
+      "confirmPassword": "Test@123456"
+    },
+    "expectedResult": "The form is not successfully submitted. A duplicate-email error is shown to the user. The existing account is unaffected and no new account is created.",
+    "actualResult": "",
+    "status": "",
+    "tags": ["@regression", "@TC_CREATE_ACCOUNT_004", "@create-account", "@negative", "@duplicate-email"]
+  },
+  {
+    "testCaseId": "TC_CREATE_ACCOUNT_005",
+    "testCaseName": "Verify invalid email format is rejected",
+    "description": "Negative field validation: malformed email addresses must be rejected before the API call is made.",
+    "module": "Create Account",
+    "priority": "High",
+    "type": "Validation",
+    "preconditions": [
+      "User is on the Create Account page"
+    ],
+    "testSteps": [
+      { "step": 1, "action": "Fill all fields with valid data but enter an invalid email format (missing @)", "testData": "First Name: TestFirst, Last Name: TestLast, Email: testuser2026.example.com, Phone: 9876543210, Password: Test@123456, Confirm Password: Test@123456" },
+      { "step": 2, "action": "Click the 'Create Account' button", "testData": "n/a" },
+      { "step": 3, "action": "Verify the Email field shows a 'Please enter a valid email address' (or equivalent) error and the form is not submitted", "testData": "n/a" }
+    ],
+    "testData": {
+      "firstName": "TestFirst",
+      "lastName": "TestLast",
+      "email": "testuser2026.example.com",
+      "phone": "9876543210",
+      "password": "Test@123456",
+      "confirmPassword": "Test@123456"
+    },
+    "expectedResult": "The Email field is highlighted as invalid. The form does not submit and no account is created.",
+    "actualResult": "",
+    "status": "",
+    "tags": ["@regression", "@TC_CREATE_ACCOUNT_005", "@create-account", "@negative", "@validation", "@email-format"]
+  }
+]

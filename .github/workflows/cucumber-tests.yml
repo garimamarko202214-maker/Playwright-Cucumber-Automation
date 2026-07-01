@@ -35,8 +35,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run Cucumber tests
-        run: npx cucumber-js --tags "@events" 
+      - name: Run All Cucumber tests
+        run: npm run test
 
       - name: Generate HTML report
         if: always()

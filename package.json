@@ -2,7 +2,13 @@
   "name": "playwright",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+  "test": "cucumber-js",
+  "test:login": "cucumber-js --tags @TC_LGO_001",
+  "test:create-account": "cucumber-js --tags @TC_CA_001",
+  "report": "node generate-report.js"
+     
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

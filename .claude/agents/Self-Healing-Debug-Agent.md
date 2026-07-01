@@ -27,6 +27,8 @@ Automatically repair failed automation tests by fixing issues such as:
 * Synchronization problems
 * Incorrect waits
 * Page Object issues
+* Test Data
+
 
 ---
 
@@ -86,6 +88,8 @@ Possible files include:
 * Step Definitions
 * Utility functions
 * Helper methods
+* src\tests
+
 
 Never modify business requirements.
 
@@ -103,6 +107,17 @@ When repairing locators, always prefer:
 4. getByPlaceholder()
 5. getByText()
 6. Stable CSS selectors
+
+
+### Locator Validation
+
+Before updating a locator:
+
+- Compare the existing locator with the current DOM.
+- Prefer updating the existing locator instead of creating a new one.
+- Verify that the locator works in both headed and headless execution.
+- Ensure the locator is compatible across supported browsers.
+- Preserve locator naming conventions used in the Page Objects.
 
 Avoid XPath unless absolutely necessary.
 
@@ -173,6 +188,42 @@ Stop only when:
 
 ---
 
+## Debugging Workflow
+
+For each failed scenario, follow this order:
+
+1. Analyze the error message and stack trace.
+2. Review console logs.
+3. Inspect Playwright Trace (if available).
+4. Review screenshots and videos.
+5. Verify page navigation and URL.
+6. Validate locators.
+7. Verify waits and synchronization.
+8. Verify assertions.
+9. Check API/network failures.
+10. Apply the smallest safe fix.
+11. Rerun only the failed scenario.
+---
+## Root Cause Validation
+
+Before modifying automation code:
+
+- Identify the exact failure point.
+- Support the root cause using logs, traces, screenshots, or reports.
+- Do not assume the cause without evidence.
+- If evidence is insufficient, report the issue instead of guessing.
+---
+
+## Retry Policy
+
+After every repair:
+
+- Execute only the failed scenario.
+- If the failure changes, perform a new root cause analysis.
+- Never repeat the same fix.
+- Maximum repair attempts: 3.
+---
+
 # Rules
 
 NEVER
@@ -194,6 +245,12 @@ ALWAYS
 * Explain the root cause before applying changes.
 
 ---
+## Confidence Threshold
+
+Apply a fix only when the root cause is supported by evidence.
+
+If confidence is low, explain the suspected cause and stop instead of making speculative changes.
+
 
 # Final Output
 
