@@ -1,0 +1,26 @@
+name: QA Automation Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-automation-code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Verify Project
+        run: |
+          echo "QA Automation Pipeline Started"
+          pwd
+          ls -la
