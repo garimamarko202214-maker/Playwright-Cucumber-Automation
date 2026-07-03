@@ -47,14 +47,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cucumber-report
-          path: reports/cucumber-report.html
+          path: reports/
 
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: reports
-          path: reports/cucumber-report.html
+          name: playwright-report
+          path: playwright-report/cucumber-report.html
 
       - name: Comment PR with test results
         if: github.event_name == 'pull_request'
